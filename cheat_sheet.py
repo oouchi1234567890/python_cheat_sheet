@@ -168,7 +168,7 @@ def add(item, bucket=None):
 """lambda 引数: 式 名前を持たない短い関数を定義するための式。"""
 
 double = lambda x: x * 2
-print(double(5))  # 10
+# print(double(5))  # 10が出力される
 
 """以下と同じ"""
 
@@ -204,7 +204,7 @@ c = counter()
 # print(c())  # 1
 # print(c())  # 2
 
-"""■　■　■　　クラス / インスタンス　　■　■　■"""
+"""コンストラクタ / インスタンス"""
 
 
 class User:
@@ -273,7 +273,146 @@ def repeat(count):
 
 @repeat(3)  # repeatに渡される引数は count で、3回繰り返す
 def greet(name):
-    print(f"こんにちは、{name}さん")
+    # print(f"こんにちは、{name}さん")
+    pass  # 上のコメントを解除すると3回prinitされる
 
 
 greet("Alice")
+
+
+"""■　■　■モジュール / パッケージ / 名前空間 / スコープ"""
+import math
+import pathlib as pl  # asで別名を付けることもできる。
+from collections import Counter
+
+# from の後はモジュール名、モジュール名はファイル名から.pyを除いたもの。
+# collections.Counter は、要素の出現回数を数えるためのクラス。
+fruits = ["apple", "banana", "apple", "orange", "banana", "apple"]
+counts = Counter(fruits)
+# print(counts)
+math.sqrt(9)
+pl.Path("data.txt")
+
+"""モジュールと実行"""
+
+
+# 特定のファイル名を実行する tool.pyだとmain()が実行されるが、
+# 他のファイルからimportされた場合は実行されない。
+def main():
+    # print("run")
+    pass
+
+
+if __name__ == "__main__":
+    main()  # python tool.py のときだけ実行
+
+"""パッケージはモジュールをまとめるディレクトリ。通常は __init__.py
+を置く（名前空間パッケージでは省略可能）。相対import例: from
+.utils import helper。"""
+
+
+"""■　■　■　　ファイル操作　　■　■　■"""
+from pathlib import Path
+
+"""ファイルの読み書き"""
+path = Path("sample.txt")
+
+# ファイルの書き込み
+with path.open("w", encoding="utf-8") as f:
+    f.write("Hello, World!\n")
+    f.write("Python チートシート\n")
+
+# もしくは
+path.write_text("Hello, World!\nPython チートシート\n", encoding="utf-8")
+# ファイルのクローズ処理は自動で実施
+
+# ファイルの読み込み
+with path.open("r", encoding="utf-8") as f:
+    content = f.read()
+    # print(content)
+path.read_text(encoding="utf-8")
+# こちらもファイルのクローズ処理は自動で実施
+
+"""json ファイルの読み書き"""
+import json
+
+json_path = Path("sample.json")
+
+# JSON の書き込み
+data = {"name": "Alice", "age": 30}
+with json_path.open("w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+    # 引数の説明　ensure_ascii=False: 非ASCII文字をそのまま出力
+    # indent=4　 インデントを4スペースにして整形
+
+# JSON の読み込み
+with json_path.open("r", encoding="utf-8") as f:
+    loaded_data = json.load(f)
+    # print(loaded_data)
+
+
+"""csv ファイルの読み書き"""
+
+import csv
+from pathlib import Path
+
+path = Path("rows.csv")
+# ファイルがなければ新規作成する
+if not path.exists():
+    print(f"{path} がないので新規作成")
+    path.touch()
+
+with open("rows.csv", "a+", newline="", encoding="utf-8-sig") as f:
+    # "a+",を追記しないと、"r"と同じでファイルがない場合はFileNotFoundError:
+    # withステートメントを使うことで、ファイルのクローズ処理を自動で実施
+    rows = list(csv.DictReader(f))
+
+path = Path("rows.csv")
+# CSV の書き込み
+with path.open("w", newline="", encoding="utf-8-sig") as f:
+    # newline="" 改行コードを変換せず、ファイル内の改行をそのまま書き込む
+    writer = csv.DictWriter(f, fieldnames=["name", "age"])
+    writer.writeheader()
+    writer.writerow({"name": "Alice", "age": 30})
+    writer.writerow({"name": "Bob", "age": 25})
+
+"""CSV の読み込み"""
+content = path.read_text(encoding="utf-8-sig")
+text = content.splitlines()
+
+
+# CSV ファイルにデータを書き込む
+data = [
+    ["ID", "Name", "Age", "Height", "Weight"],
+    [1, "Taro Yamada", 16, 170, 65],
+    [2, "Hanako Sato", 16, 160, 55],
+    [3, "Ichiro Suzuki", 17, 175, 68],
+    [4, "Misaki Tanaka", 16, 162, 54],
+    [5, "Kenta Takahashi", 17, 178, 70],
+    [6, "Mao Ito", 16, 165, 57],
+    [7, "Yuko Watanabe", 16, 168, 60],
+    [8, "Ryo Nakamura", 17, 172, 66],
+    [9, "Ai Kobayashi", 16, 158, 52],
+    [10, "Daisuke Kato", 16, 176, 69],
+]
+
+with open("base.csv", "w") as csvfile:  # 'w'モードで開く
+    writer = csv.writer(csvfile)
+    writer.writerows(data)
+
+
+# 'sample.csv'ファイルにデータを追記
+with open(
+    "sample.csv",
+    "a",
+    newline="",
+    encoding="utf-8-sig",
+    # BOM付のUTF-8で書き込む　先頭にEF BB BF
+) as csvfile:  # 'a'モードで開くappend 追記モード
+    writer = csv.writer(csvfile)
+    writer.writerows(
+        [
+            [11, "Shota Yamaguchi", 17, 180, 75],
+            [12, "Emi Kondo", 16, 158, 50],
+        ]
+    )  # 新しいデータを追加
