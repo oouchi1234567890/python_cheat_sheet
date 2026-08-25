@@ -1,8 +1,7 @@
-# python_cheat_sheet
 # Python チートシート
 
 Pythonでよく使う構文や操作を、用途別にすぐ確認できるようにまとめたチートシートです。
-vscodeで作成したものをchatGPTで整理しています。
+
 > [!NOTE]
 > コードブロックには `python` を指定しています。VS CodeのMarkdownプレビューでは、使用中のテーマに合わせて構文が色分けされます。
 
@@ -26,6 +25,11 @@ vscodeで作成したものをchatGPTで整理しています。
 - [クラスとインスタンス](#クラスとインスタンス)
   - [継承・super・property](#継承superproperty)
 - [デコレータ](#デコレータ)
+- [ファイル操作](#ファイル操作)
+  - [テキストファイル](#テキストファイル)
+  - [JSONファイル](#jsonファイル)
+  - [CSVファイル](#csvファイル)
+  - [ファイルモード](#ファイルモード)
 
 ---
 
@@ -449,6 +453,199 @@ greet("Alice")                      # 挨拶を3回表示
 ```python
 greet = repeat(3)(greet)
 ```
+
+---
+
+## ファイル操作
+
+`pathlib.Path` を使うと、ファイルパスの作成、存在確認、読み書きをまとめて扱えます。
+
+```python
+from pathlib import Path
+
+path = Path("sample.txt")
+```
+
+`"sample.txt"` のような相対パスは、Pythonを実行したときのカレントディレクトリを基準にします。スクリプトと同じフォルダを基準にする場合は、次のようにします。
+
+```python
+path = Path(__file__).parent / "sample.txt"
+```
+
+### テキストファイル
+
+`with` ブロックを抜けるとファイルは自動的に閉じられます。
+
+```python
+from pathlib import Path
+
+path = Path("sample.txt")
+
+# 書き込み。既存の内容は上書きされる
+with path.open("w", encoding="utf-8") as f:
+    f.write("Hello, World!\n")
+    f.write("Python チートシート\n")
+
+# ファイル全体を一度に書く場合
+path.write_text(
+    "Hello, World!\nPython チートシート\n",
+    encoding="utf-8",
+)
+
+# 読み込み
+with path.open("r", encoding="utf-8") as f:
+    content = f.read()
+
+# ファイル全体を一度に読む場合
+content = path.read_text(encoding="utf-8")
+```
+
+ファイルが存在しない場合だけ空のファイルを作成するには、`touch()` を使います。
+
+```python
+path = Path("rows.csv")
+
+if not path.exists():
+    print(f"{path} がないので新規作成")
+    path.touch()
+```
+
+より短く書く場合、`exist_ok=True` を指定すると、既存のファイルがあってもエラーになりません。
+
+```python
+path.touch(exist_ok=True)
+```
+
+### JSONファイル
+
+`json.dump()` はPythonの辞書などをJSONファイルへ書き込み、`json.load()` はJSONファイルからPythonのデータを読み込みます。
+
+```python
+import json
+from pathlib import Path
+
+json_path = Path("sample.json")
+data = {"name": "Alice", "age": 30}
+
+# JSONの書き込み
+with json_path.open("w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+
+# JSONの読み込み
+with json_path.open("r", encoding="utf-8") as f:
+    loaded_data = json.load(f)
+```
+
+- `ensure_ascii=False`: 日本語などの非ASCII文字をそのまま保存する
+- `indent=4`: 4個の空白でインデントして読みやすく整形する
+
+### CSVファイル
+
+CSVは、カンマや引用符、セル内の改行を正しく扱うために `csv` モジュールで読み書きします。
+
+#### 辞書形式で書き込む
+
+```python
+import csv
+from pathlib import Path
+
+path = Path("rows.csv")
+
+with path.open("w", newline="", encoding="utf-8-sig") as f:
+    writer = csv.DictWriter(f, fieldnames=["name", "age"])
+    writer.writeheader()
+    writer.writerow({"name": "Alice", "age": 30})
+    writer.writerow({"name": "Bob", "age": 25})
+```
+
+#### 辞書形式で読み込む
+
+```python
+with path.open("r", newline="", encoding="utf-8-sig") as f:
+    rows = list(csv.DictReader(f))
+
+for row in rows:
+    print(row)
+```
+
+読み込んだ値は、基本的に文字列になります。
+
+```python
+{"name": "Alice", "age": "30"}
+{"name": "Bob", "age": "25"}
+```
+
+#### 複数行を書き込む
+
+`writerows()` は、リストなどに格納した複数行をまとめて書き込みます。
+
+```python
+data = [
+    ["ID", "Name", "Age"],
+    [1, "Taro Yamada", 16],
+    [2, "Hanako Sato", 16],
+]
+
+with open("base.csv", "w", newline="", encoding="utf-8") as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerows(data)
+```
+
+#### ファイルの末尾に追記する
+
+`"a"` はappend（追記）モードです。ファイルがあれば末尾へ追加し、なければ新しく作成します。
+
+```python
+new_data = [
+    [11, "Shota Yamaguchi", 17],
+    [12, "Emi Kondo", 16],
+]
+
+with open(
+    "sample.csv",
+    "a",
+    newline="",
+    encoding="utf-8-sig",
+) as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerows(new_data)
+```
+
+`"a+"` では追記と読み込みの両方ができます。ただし、開いた直後のファイル位置は末尾なので、読み込む前に `seek(0)` で先頭へ戻します。
+
+```python
+with open(
+    "rows.csv",
+    "a+",
+    newline="",
+    encoding="utf-8-sig",
+) as f:
+    f.seek(0)
+    rows = list(csv.DictReader(f))
+```
+
+#### CSVで使うオプション
+
+- `newline=""`: Python側で改行を変換せず、改行の処理を `csv` モジュールに任せる
+- `encoding="utf-8-sig"`: UTF-8のBOMを扱う。Windows版Excelで文字コードを判別しやすくなる
+- `utf-8-sig` の `sig`: signature（目印）の意味
+
+`read_text()` と `splitlines()` でも行ごとの文字列にはできますが、CSVとして解析しているわけではありません。引用符で囲まれたセル内に改行がある場合などは `csv.reader()` または `csv.DictReader()` を使います。
+
+```python
+content = path.read_text(encoding="utf-8-sig")
+text = content.splitlines()
+```
+
+### ファイルモード
+
+| モード | 操作 | ファイルがある場合 | ファイルがない場合 |
+|---|---|---|---|
+| `"r"` | 読み込み | 読み込む | `FileNotFoundError` |
+| `"w"` | 書き込み | 内容を消して上書き | 新規作成 |
+| `"a"` | 追記 | 末尾へ追加 | 新規作成 |
+| `"x"` | 新規作成 | `FileExistsError` | 新規作成 |
+| `"a+"` | 読み込み・追記 | 末尾から開始 | 新規作成 |
 
 ---
 
