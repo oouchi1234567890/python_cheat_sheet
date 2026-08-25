@@ -416,3 +416,76 @@ with open(
             [12, "Emi Kondo", 16, 158, 50],
         ]
     )  # 新しいデータを追加
+
+
+"""■　■　■例外処理■　■　■"""
+# 独自例外にする場合は、クラスとして定義
+# class InputError(ValueError):
+# pass
+
+
+def save(value):
+    print(f"保存しました: {value}")
+
+
+def cleanup():
+    print("後始末をしました")
+
+
+input_text = "123"
+
+try:
+    # 例外が発生する可能性がある処理
+    value = int(input_text)
+except (ValueError, TypeError):
+    # 上で指定したエラーが発生した場合の処理
+    print(ValueError("整数ではありません"))
+    # raise raiseはエラーを投げるjavaのthrow
+else:
+    # 例外が発生しない場合のみ実施される
+    save(value)
+finally:
+    # 必ず実行される。ファイルのクローズ処理などの共通で行う後始末に使用
+    cleanup()
+# よく使う例外:
+# TypeError 型が不適切
+# ValueError 値が不適切
+# KeyError# キーなし
+# IndexError 範囲外
+# FileNotFoundError ファイルなし
+# except: は原則避ける。
+
+
+"""■　■　■正規表現■　■　■"""
+import re
+
+# 以下、メールアドレスのサンプル
+pattern = re.compile(r"(?P<name>[A-Za-z]+)@([\w.-]+)")
+# rはraw文字列を表します。エスケープ文字を処理しにくくしています。
+# (?P<name>...) は名前付きグループを定義します。
+# name という名前付きグループ
+"""以下、正規表現"""
+# [A-Za-z]	半角英字の大文字または小文字
+# +	直前のパターンが1回以上続く
+# @	@ という文字そのもの
+# (...)	マッチした部分をグループとして記録
+# \w	英数字やアンダースコアなど
+# .	[] の中ではピリオドそのもの
+# -	[] の末尾ではハイフンそのもの
+# [\w.-]	単語文字、ピリオド、ハイフンのいずれか
+# [\w.-]+	これらの文字が1回以上続く
+
+m = pattern.search("連絡先: user@example.com")
+if m:
+    m.group(0)  # マッチ全体
+    m.group("name")  # 名前付きグループ
+re.findall(r"\d+", "A12 B34")  # ['12', '34']　一致する文字列をすべて抽出
+# 出力結果は必ず型が文字列となります
+
+re.sub(r"\s+", " ", "a b")  # 'a b'
+# 一致した部分を置換え　r"\s+"  は検索する部分　" "半角空白1個に置換
+# re.sub() は元の文字列を変更せず、置換後の新しい文字列を返します
+
+re.split(r"[,;]", "a,b;c")  # ['a','b','c']
+# 主な記号: . 任意1文字／^ $ 先頭・末尾／* + ? 反復／[abc]
+# 文字集合／\d \w \s 数字・単語・空白。パターンはraw文字列推奨。
