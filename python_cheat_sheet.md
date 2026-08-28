@@ -2,6 +2,9 @@
 
 **English** | [日本語](./README.md)
 
+> [!NOTE]
+> This English version was translated using AI.
+
 A quick reference to commonly used Python syntax and operations, organized by topic.
 
 > [!NOTE]
