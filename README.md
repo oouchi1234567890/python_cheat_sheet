@@ -1,5 +1,7 @@
 # Python チートシート
 
+[English](./python_cheat_sheet.md) | **日本語**
+
 Pythonでよく使う構文や操作を、用途別にすぐ確認できるようにまとめたチートシートです。
 
 > [!NOTE]
