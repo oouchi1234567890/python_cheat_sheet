@@ -173,7 +173,8 @@ double = lambda x: x * 2
 """以下と同じ"""
 
 
-def double(x):
+# lambdaとdefの等価な書き方を比較するため、ここでは同じ名前を再定義します。
+def double(x):  # pylint: disable=function-redefined
     return x * 2
 
 
