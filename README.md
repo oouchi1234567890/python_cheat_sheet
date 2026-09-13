@@ -48,25 +48,40 @@ Pythonでよく使う構文や操作を、用途別にすぐ確認できるよ�
 
 ```python
 s = " Python,チートシート,検索・分割・置換 "
-text = s.strip()                     # 前後の空白を削除
+# 前後の空白を削除
+text = s.strip()                     
 
-text.startswith("Python")           # 接頭辞を判定: True
-text.endswith("置換")                # 接尾辞を判定: True
-"Python" in text                    # 部分文字列を判定: True
+# 接頭辞を判定: True
+text.startswith("Python")
 
-parts = text.split(",")             # 区切ってリスト化
-joined = " / ".join(parts)          # 要素を文字列で連結
+# 接尾辞を判定: True      
+text.endswith("置換")                
+
+# 部分文字列を判定: True
+"Python" in text                    
+
+# 区切ってリスト化
+parts = text.split(",")
+             
+# 要素を文字列で連結
+joined = " / ".join(parts)
+
+# 文字列を置換
 replaced = text.replace(
     "チートシート", "作成"
-)                                    # 文字列を置換
+)
+                             
+# 最初の位置。なければ -1
+found_index = text.find("Py")
 
-found_index = text.find("Py")       # 最初の位置。なければ -1
+# 接頭辞があれば削除  
 without_prefix = text.removeprefix(
     "Python,"
-)                                    # 接頭辞があれば削除
+)                                    
 
-head, sep, tail = text.partition(",")
 # 最初の区切り文字を境に、前・区切り文字・後の3要素に分割
+head, sep, tail = text.partition(",")
+
 ```
 
 文字列は変更不可（イミュータブル）です。文字列メソッドは原則として新しい文字列を返します。
@@ -82,12 +97,23 @@ head, sep, tail = text.partition(",")
 ```python
 name, price, rate = "本", 123456, 0.075
 
-f"{name}: {price:,}円"   # '本: 123,456円'
-f"{rate:.1%}"            # '7.5%'
-f"{price:>10}"           # 幅10で右寄せ
-f"{price:0>10}"          # 幅10で左側を0埋め
-f"{name!r}"              # repr()形式: "'本'"
-f"{price=}"              # 'price=123456'（デバッグ向け）
+# '本: 123,456円'
+f"{name}: {price:,}円"
+
+# '7.5%'
+f"{rate:.1%}"            
+
+# 幅10で右寄せ
+f"{price:>10}"           
+
+# 幅10で左側を0埋め
+f"{price:0>10}"          
+
+# repr()形式: "'本'"
+f"{name!r}"              
+
+# 'price=123456'（デバッグ向け）
+f"{price=}"              
 ```
 
 ### raw文字列と文字コード
@@ -97,8 +123,11 @@ raw文字列では、バックスラッシュによるエスケープを原則�
 ```python
 path = r"C:\new\test"
 
-data = "Python".encode("utf-8")  # 文字列からバイト列へ
-text = data.decode("utf-8")       # バイト列から文字列へ
+# 文字列からバイト列へ
+data = "Python".encode("utf-8")
+
+# バイト列から文字列へ
+text = data.decode("utf-8")       
 ```
 
 ### 内包表記と展開
@@ -196,16 +225,30 @@ x, y = y, x                        # 値を入れ替え
 ```python
 a = {1, 2, 3}
 b = {3, 4}
-empty = set()                       # {} は空の辞書になるため注意
 
-a | b                              # 和集合: {1, 2, 3, 4}
-a & b                              # 積集合: {3}
-a - b                              # 差集合: {1, 2}
-a ^ b                              # 対称差: {1, 2, 4}
+# {} は空の辞書になるため注意
+empty = set()                       
 
-a.add(5)                           # 要素を追加
-a.discard(9)                       # 要素を削除。なくてもエラーにならない
-a.clear()                          # 全要素を削除
+# 和集合: {1, 2, 3, 4}
+a | b                              
+
+# 積集合: {3}
+a & b                              
+
+# 差集合: {1, 2}
+a - b                              
+
+# 対称差: {1, 2, 4}
+a ^ b                              
+
+# 要素を追加
+a.add(5)                           
+
+# 要素を削除。なくてもエラーにならない
+a.discard(9)                       
+
+# 全要素を削除
+a.clear()                          
 ```
 
 ### 辞書 `dict`
@@ -215,23 +258,35 @@ a.clear()                          # 全要素を削除
 ```python
 user = {"name": "Mika", "age": 20}
 
-name = user["name"]                # キーがなければ KeyError
-city = user.get("city", "Tokyo")  # なければ既定値
+# キーがなければ KeyError
+name = user["name"]
 
-user["age"] = 21                  # 追加または上書き
+# なければ既定値       
+city = user.get("city", "Tokyo")  
+
+# 追加または上書き
+user["age"] = 21                  
 user["active"] = True
 user.update(city="Osaka", active=False)
 user.update({"city": "Kyoto"})
 
-keys = user.keys()                  # キーのビュー
-values = user.values()              # 値のビュー
-items = user.items()                # (キー, 値) のビュー
+# キーのビュー
+keys = user.keys()                  
+
+# 値のビュー
+values = user.values()              
+
+# (キー, 値) のビュー
+items = user.items()                
 
 for key, value in user.items():
     print(key, value)
 
-age = user.pop("age")              # 削除した値を返す
-"name" in user                     # キーの存在判定
+# 削除した値を返す
+age = user.pop("age")              
+
+# キーの存在判定
+"name" in user                     
 ```
 
 ---
@@ -256,11 +311,13 @@ age = user.pop("age")              # 削除した値を返す
 names = ["Aoi", "Mika"]
 scores = [90, 80]
 
+# 番号付きで反復
 for index, name in enumerate(names, start=1):
-    print(index, name)              # 番号付きで反復
+    print(index, name)              
 
+# 複数の列を同時に反復
 for name, score in zip(names, scores):
-    print(name, score)              # 複数の列を同時に反復
+    print(name, score)              
 
 has_passed = any(score >= 60 for score in scores)
 all_passed = all(score >= 60 for score in scores)
@@ -275,9 +332,11 @@ def greeting(name: str, prefix: str = "Hi") -> str:
     """挨拶文を返す。"""
     return f"{prefix}, {name}!"
 
+# 位置引数
+greeting("Aoi")                         
 
-greeting("Aoi")                         # 位置引数
-greeting(name="Aoi", prefix="Hello")  # キーワード引数
+# キーワード引数
+greeting(name="Aoi", prefix="Hello")  
 ```
 
 ### 引数の種類
@@ -376,20 +435,28 @@ c()                                 # 2
 ## クラスとインスタンス
 
 ```python
+# クラス属性
 class User:
-    species = "human"               # クラス属性
+    species = "human"               
 
     def __init__(self, name: str):
-        self.name = name             # インスタンス属性
+        # インスタンス属性
+        self.name = name             
 
     def greet(self) -> str:
         return f"Hi, {self.name}"
 
+# インスタンスを生成
+user = User("Aoi")                 
 
-user = User("Aoi")                 # インスタンスを生成
-user.name                           # 'Aoi'
-user.greet()                        # 'Hi, Aoi'
-isinstance(user, User)              # True
+# 'Aoi'
+user.name                           
+
+# 'Hi, Aoi'
+user.greet()                        
+
+ # True
+isinstance(user, User)             
 ```
 
 ### 継承・`super()`・`property`
@@ -416,9 +483,14 @@ class Admin(User):
 
 
 admin = Admin("Aoi", level=2)
-admin.level                         # getterを呼ぶ
-admin.level = 3                     # setterを呼ぶ
-del admin.level                     # deleterを呼ぶ
+# getterを呼ぶ
+admin.level                         
+
+# setterを呼ぶ
+admin.level = 3                     
+
+# deleterを呼ぶ
+del admin.level                     
 ```
 
 Pythonでは `_name` は「外部から直接触らない」という慣例を表します。Javaなどの `private` のような強制的なアクセス制限ではありません。
@@ -453,8 +525,8 @@ def repeat(count):
 def greet(name):
     print(f"こんにちは、{name}さん")
 
-
-greet("Alice")                      # 挨拶を3回表示
+# 以下で挨拶を3回表示
+greet("Alice")                      
 ```
 
 `@repeat(3)` は、おおむね次の代入と同じ意味です。
