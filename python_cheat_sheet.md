@@ -47,22 +47,38 @@ A quick reference to commonly used Python syntax and operations, organized by to
 
 ```python
 s = " Python,cheat sheet,search split replace "
-text = s.strip()                       # Remove leading/trailing whitespace
+text = s.strip()                       
+# Remove leading/trailing whitespace
 
-text.startswith("Python")             # Test a prefix: True
-text.endswith("replace")              # Test a suffix: True
-"Python" in text                      # Test for a substring: True
+text.startswith("Python")             
+# Test a prefix: True
 
-parts = text.split(",")                # Split into a list
-joined = " / ".join(parts)             # Join strings
+text.endswith("replace")              
+# Test a suffix: True
+
+"Python" in text                      
+# Test for a substring: True
+
+parts = text.split(",")                
+# Split into a list
+
+
+joined = " / ".join(parts)             
+# Join strings
+
+
 replaced = text.replace(
     "cheat sheet", "reference"
-)                                      # Replace text
+    # Replace text
+)                                      
+found_index = text.find("Py")
+# First index, or -1 if not found
 
-found_index = text.find("Py")          # First index, or -1 if not found
+  
 without_prefix = text.removeprefix(
     "Python,"
-)                                      # Remove the prefix if present
+    # Remove the prefix if present 
+)                                      
 
 head, separator, tail = text.partition(",")
 # Split into the text before, the separator, and the text after
@@ -79,12 +95,23 @@ Strings are immutable. String methods normally return a new string instead of ch
 ```python
 name, price, rate = "Book", 123456, 0.075
 
-f"{name}: ${price:,}"   # 'Book: $123,456'
-f"{rate:.1%}"           # '7.5%'
-f"{price:>10}"          # Right-align in a field of width 10
-f"{price:0>10}"         # Pad the left side with zeros
-f"{name!r}"             # repr() form: "'Book'"
-f"{price=}"             # 'price=123456' (useful for debugging)
+f"{name}: ${price:,}"
+# 'Book: $123,456'
+
+f"{rate:.1%}"
+# '7.5%'
+
+f"{price:>10}"
+# Right-align in a field of width 10
+
+f"{price:0>10}"
+# Pad the left side with zeros
+
+f"{name!r}"
+# repr() form: "'Book'"
+
+f"{price=}"
+# 'price=123456' (useful for debugging)
 ```
 
 ### Raw Strings and Encoding
@@ -94,8 +121,11 @@ Raw strings treat backslashes literally in most cases.
 ```python
 path = r"C:\new\test"
 
-data = "Python".encode("utf-8")  # String to bytes
-text = data.decode("utf-8")       # Bytes to string
+data = "Python".encode("utf-8")
+# String to bytes
+
+text = data.decode("utf-8")
+# Bytes to string
 ```
 
 ### Comprehensions and Unpacking
@@ -149,25 +179,50 @@ Lists are ordered and mutable.
 ```python
 names = ["Alice", "Bob", "Charlie", "alice"]
 
-first = names[0]                     # First item
-last = names[-1]                     # Last item
-part = names[1:3]                    # [start:stop:step]
+first = names[0]
+# First item
 
-names.append("David")                # Add one item at the end
-names.extend(["Eve", "Frank"])       # Add multiple items at the end
-names.insert(1, "Grace")             # Add an item at an index
+last = names[-1]
+# Last item
 
-names.remove("Charlie")              # Remove the first matching value
-popped = names.pop()                  # Remove and return the last item
-del names[0]                          # Delete an item by index
+part = names[1:3]
+# [start:stop:step]
 
-names.sort(reverse=True)              # Sort the original list descending
-names.reverse()                       # Reverse the original list
+names.append("David")
+# Add one item at the end
 
-"David" in names                     # Membership test
-len(names)                            # Number of items
-names.count("Alice")                 # Number of matches
-names.index("David")                 # Index of the first match
+names.extend(["Eve", "Frank"])
+# Add multiple items at the end
+
+names.insert(1, "Grace")
+# Add an item at an index
+
+names.remove("Charlie")
+# Remove the first matching value
+
+popped = names.pop()
+# Remove and return the last item
+
+del names[0]
+# Delete an item by index
+
+names.sort(reverse=True)
+# Sort the original list descending
+
+names.reverse()
+# Reverse the original list
+
+"David" in names
+# Membership test
+
+len(names)
+# Number of items
+
+names.count("Alice")
+# Number of matches
+
+names.index("David")
+# Index of the first match
 ```
 
 > [!TIP]
@@ -179,10 +234,14 @@ Tuples are ordered and cannot be changed after creation.
 
 ```python
 point = (10, 20)
-single = (10,)                       # A one-item tuple needs a comma
+single = (10,)
+# A one-item tuple needs a comma
 
-x, y = point                         # Unpack values
-x, y = y, x                          # Swap values
+x, y = point
+# Unpack values
+
+x, y = y, x
+# Swap values
 ```
 
 ### Sets `set`
@@ -192,16 +251,29 @@ Sets contain no duplicate elements and support set operations.
 ```python
 a = {1, 2, 3}
 b = {3, 4}
-empty = set()                        # {} creates an empty dictionary
+empty = set()
+# {} creates an empty dictionary
 
-a | b                                # Union: {1, 2, 3, 4}
-a & b                                # Intersection: {3}
-a - b                                # Difference: {1, 2}
-a ^ b                                # Symmetric difference: {1, 2, 4}
+a | b
+# Union: {1, 2, 3, 4}
 
-a.add(5)                             # Add an element
-a.discard(9)                         # Remove it if present; no error if absent
-a.clear()                            # Remove all elements
+a & b
+# Intersection: {3}
+
+a - b
+# Difference: {1, 2}
+
+a ^ b
+# Symmetric difference: {1, 2, 4}
+
+a.add(5)
+# Add an element
+
+a.discard(9)
+# Remove it if present; no error if absent
+
+a.clear()
+# Remove all elements
 ```
 
 ### Dictionaries `dict`
@@ -211,23 +283,36 @@ Dictionaries store key-value pairs.
 ```python
 user = {"name": "Mika", "age": 20}
 
-name = user["name"]                  # Raises KeyError if missing
-city = user.get("city", "Tokyo")    # Return a default if missing
+name = user["name"]
+# Raises KeyError if missing
 
-user["age"] = 21                    # Add or overwrite a value
+city = user.get("city", "Tokyo")
+# Return a default if missing
+
+user["age"] = 21
+# Add or overwrite a value
+
 user["active"] = True
 user.update(city="Osaka", active=False)
 user.update({"city": "Kyoto"})
 
-keys = user.keys()                   # View of keys
-values = user.values()               # View of values
-items = user.items()                 # View of (key, value) pairs
+keys = user.keys()
+# View of keys
+
+values = user.values()
+# View of values
+
+items = user.items()
+# View of (key, value) pairs
 
 for key, value in user.items():
     print(key, value)
 
-age = user.pop("age")                # Remove the key and return its value
-"name" in user                       # Test whether a key exists
+age = user.pop("age")
+# Remove the key and return its value
+
+"name" in user
+# Test whether a key exists
 ```
 
 ---
@@ -251,10 +336,12 @@ names = ["Aoi", "Mika"]
 scores = [90, 80]
 
 for index, name in enumerate(names, start=1):
-    print(index, name)                # Iterate with an index
+    print(index, name)
+    # Iterate with an index
 
 for name, score in zip(names, scores):
-    print(name, score)                # Iterate over multiple sequences
+    print(name, score)
+    # Iterate over multiple sequences
 
 has_passed = any(score >= 60 for score in scores)
 all_passed = all(score >= 60 for score in scores)
@@ -270,8 +357,11 @@ def greeting(name: str, prefix: str = "Hi") -> str:
     return f"{prefix}, {name}!"
 
 
-greeting("Aoi")                         # Positional argument
-greeting(name="Aoi", prefix="Hello")  # Keyword arguments
+greeting("Aoi")
+# Positional argument
+
+greeting(name="Aoi", prefix="Hello")
+# Keyword arguments
 ```
 
 ### Parameter Types
