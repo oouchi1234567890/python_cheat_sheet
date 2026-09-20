@@ -1,0 +1,5 @@
+Lucide icons
+Source: https://github.com/lucide-icons/lucide/tree/951813ce76a859d4d8b145366972cbb237147a4e/icons
+Website: https://lucide.dev/icons/
+Modifications: width and height set to 48; stroke set to #3b82f6.
+License: see LICENSE in this directory.

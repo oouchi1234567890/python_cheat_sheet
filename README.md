@@ -49,6 +49,8 @@ Pythonでよく使う構文や操作を、用途別にすぐ確認できるよ�
 
 ## 文字列
 
+![文字列のアイコン](images/lucide/type.svg)
+
 ### 検索・分割・置換
 
 ```python
@@ -184,6 +186,8 @@ print(*nums)
 ---
 
 ## データ構造
+
+![データ構造のアイコン](images/lucide/layers.svg)
 
 | 型 | 順序 | 変更 | 重複 | 主な用途 |
 |---|---|---|---|---|
@@ -341,6 +345,8 @@ age = user.pop("age")
 
 ## 組み込み関数
 
+![組み込み関数のアイコン](images/lucide/wrench.svg)
+
 | 分類 | 主な関数 |
 |---|---|
 | 型・判定 | `type(x)`, `isinstance(x, T)`, `issubclass(A, B)`, `callable(x)` |
@@ -376,6 +382,8 @@ all_passed = all(score >= 60 for score in scores)
 ---
 
 ## 数値の計算と丸め
+
+![数値の計算と丸めのアイコン](images/lucide/calculator.svg)
 
 ### 最大値・最小値
 
@@ -489,6 +497,8 @@ statistics.stdev(numbers)
 ---
 
 ## 関数
+
+![関数のアイコン](images/lucide/code.svg)
 
 ```python
 def greeting(name: str, prefix: str = "Hi") -> str:
@@ -607,6 +617,8 @@ c()
 
 ## クラスとインスタンス
 
+![クラスとインスタンスのアイコン](images/lucide/boxes.svg)
+
 ```python
 # クラス属性
 class User:
@@ -678,6 +690,8 @@ Pythonでは `_name` は「外部から直接触らない」という慣例を�
 
 ## デコレータ
 
+![デコレータのアイコン](images/lucide/wand-sparkles.svg)
+
 デコレータは、既存の関数などを受け取り、機能を加えたオブジェクトを返します。`@デコレータ名` の形式で適用します。
 
 ```python
@@ -720,6 +734,8 @@ greet = repeat(3)(greet)
 ---
 
 ## ファイル操作
+
+![ファイル操作のアイコン](images/lucide/folder-open.svg)
 
 `pathlib.Path` を使うと、ファイルパスの作成、存在確認、読み書きをまとめて扱えます。
 
@@ -918,6 +934,8 @@ text = content.splitlines()
 
 ## 例外処理
 
+![例外処理のアイコン](images/lucide/triangle-alert.svg)
+
 例外処理を使うと、実行中に問題が起きた場合の処理を記述できます。
 
 ```python
@@ -1009,6 +1027,8 @@ except ValueError as error:
 ---
 
 ## 正規表現
+
+![正規表現のアイコン](images/lucide/regex.svg)
 
 `re` モジュールを使うと、文字列の検索、抽出、置換、分割をパターンで指定できます。正規表現ではバックスラッシュを多用するため、通常はraw文字列 `r"..."` を使います。
 
@@ -1111,4 +1131,8 @@ print(parts)
 
 ## 関連ファイル
 
+![関連ファイルのアイコン](images/lucide/files.svg)
+
 - 元のPythonファイル: [`cheat_sheet.py`](./cheat_sheet.py)
+
+見出しのアイコン: [Lucide](https://lucide.dev/icons/)（[ライセンス](images/lucide/LICENSE)・[取得元と変更内容](images/lucide/SOURCE.txt)）。

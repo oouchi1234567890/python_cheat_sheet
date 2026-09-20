@@ -48,6 +48,8 @@ A quick reference to commonly used Python syntax and operations, organized by to
 
 ## Strings
 
+![Strings icon](images/lucide/type.svg)
+
 ### Searching, Splitting, and Replacing
 
 ```python
@@ -198,6 +200,8 @@ print(*numbers)
 ---
 
 ## Data Structures
+
+![Data Structures icon](images/lucide/layers.svg)
 
 | Type | Ordered | Mutable | Duplicates | Typical use |
 |---|---|---|---|---|
@@ -389,6 +393,8 @@ age = user.pop("age")
 
 ## Built-in Functions
 
+![Built-in Functions icon](images/lucide/wrench.svg)
+
 | Category | Common functions |
 |---|---|
 | Types and tests | `type(x)`, `isinstance(x, T)`, `issubclass(A, B)`, `callable(x)`, `hash(x)` |
@@ -424,6 +430,8 @@ all_passed = all(score >= 60 for score in scores)
 ---
 
 ## Numeric Calculations and Rounding
+
+![Numeric Calculations and Rounding icon](images/lucide/calculator.svg)
 
 ### Maximum and Minimum
 
@@ -537,6 +545,8 @@ References: [Built-in functions](https://docs.python.org/3/library/functions.htm
 ---
 
 ## Functions
+
+![Functions icon](images/lucide/code.svg)
 
 ```python
 def greeting(name: str, prefix: str = "Hi") -> str:
@@ -658,6 +668,8 @@ c()
 
 ## Classes and Instances
 
+![Classes and Instances icon](images/lucide/boxes.svg)
+
 ```python
 class User:
 
@@ -730,6 +742,8 @@ By convention, a name beginning with `_` is treated as non-public. Unlike Java's
 
 ## Decorators
 
+![Decorators icon](images/lucide/wand-sparkles.svg)
+
 A decorator receives an existing callable and returns an object with added or changed behavior. Apply one with `@decorator_name`.
 
 ```python
@@ -774,6 +788,8 @@ greet = repeat(3)(greet)
 
 ## Modules, Packages, Namespaces, and Scope
 
+![Modules, Packages, Namespaces, and Scope icon](images/lucide/package.svg)
+
 ```python
 import math
 
@@ -810,6 +826,8 @@ if __name__ == "__main__":
 ---
 
 ## File Operations
+
+![File Operations icon](images/lucide/folder-open.svg)
 
 `pathlib.Path` provides a convenient interface for paths, existence checks, and file I/O.
 
@@ -990,6 +1008,8 @@ with open(
 
 ## Exception Handling
 
+![Exception Handling icon](images/lucide/triangle-alert.svg)
+
 Exception handling defines what the program should do when an operation fails.
 
 ```python
@@ -1057,6 +1077,8 @@ Common exceptions:
 ---
 
 ## Regular Expressions
+
+![Regular Expressions icon](images/lucide/regex.svg)
 
 The `re` module searches, extracts, replaces, and splits text using patterns. Raw strings such as `r"..."` are recommended because regular expressions use many backslashes.
 
@@ -1126,4 +1148,8 @@ parts = re.split(r"[,;]", "a,b;c")
 
 ## Related File
 
+![Related File icon](images/lucide/files.svg)
+
 - Source Python file: [`cheat_sheet.py`](./cheat_sheet.py)
+
+Heading icons: [Lucide](https://lucide.dev/icons/) ([license](images/lucide/LICENSE), [source and modifications](images/lucide/SOURCE.txt)).
