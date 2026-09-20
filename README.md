@@ -21,6 +21,11 @@ Pythonでよく使う構文や操作を、用途別にすぐ確認できるよ�
   - [集合](#集合-set)
   - [辞書](#辞書-dict)
 - [組み込み関数](#組み込み関数)
+- [数値の計算と丸め](#数値の計算と丸め)
+  - [最大値・最小値](#最大値最小値)
+  - [roundによる銀行家の丸め](#roundによる銀行家の丸め)
+  - [decimalによる四捨五入](#decimalによる四捨五入)
+  - [平均・標準偏差](#平均標準偏差)
 - [関数](#関数)
   - [引数の種類](#引数の種類)
   - [デフォルト引数の注意点](#デフォルト引数の注意点)
@@ -48,6 +53,7 @@ Pythonでよく使う構文や操作を、用途別にすぐ確認できるよ�
 
 ```python
 s = " Python,チートシート,検索・分割・置換 "
+
 # 前後の空白を削除
 text = s.strip()                     
 
@@ -89,7 +95,8 @@ head, sep, tail = text.partition(",")
 大文字・小文字を区別せず比較するときは `casefold()` が便利です。
 
 ```python
-"Python".casefold() == "PYTHON".casefold()  # True
+# True
+"Python".casefold() == "PYTHON".casefold()
 ```
 
 ### f-stringの書式指定
@@ -135,19 +142,25 @@ text = data.decode("utf-8")
 ```python
 # リスト内包表記: 偶数だけを抽出して2乗
 squares = [x * x for x in range(6) if x % 2 == 0]
+
 # [0, 4, 16]
 
 # 辞書内包表記
 lookup = {x: x * x for x in range(3)}
+
 # {0: 0, 1: 1, 2: 4}
 
 # 集合内包表記: 重複なし・順序の保証なし
 names = ["Alice", "Bob", "Charlie", "alice"]
+
 unique = {name.lower() for name in names}
+
 # {'alice', 'bob', 'charlie'} ※表示順は一定ではない
 
 names_list = [name + "さん" for name in names]
+
 print(*names_list, sep=", ")
+
 # Aliceさん, Bobさん, Charlieさん, aliceさん
 ```
 
@@ -155,13 +168,17 @@ print(*names_list, sep=", ")
 
 ```python
 nums = [1, 2]
-more_nums = [0, *nums, 3]           # [0, 1, 2, 3]
+
+# [0, 1, 2, 3]
+more_nums = [0, *nums, 3]
 
 options = {"flag": True}
 config = {"mode": "fast", **options}
+
 # {'mode': 'fast', 'flag': True}
 
-print(*nums)                         # print(1, 2) と同じ
+# print(1, 2) と同じ
+print(*nums)
 ```
 
 ---
@@ -182,25 +199,50 @@ print(*nums)                         # print(1, 2) と同じ
 ```python
 names = ["Alice", "Bob", "Charlie", "alice"]
 
-first = names[0]                    # 先頭
-last = names[-1]                    # 末尾
-part = names[1:3]                   # [開始:終了:間隔]
+# 先頭
+first = names[0]
 
-names.append("David")              # 末尾に1要素追加
-names.extend(["Eve", "Frank"])     # 末尾に複数要素追加
-names.insert(1, "Grace")           # 指定位置に追加
+# 末尾
+last = names[-1]
 
-names.remove("Charlie")            # 最初に一致した値を削除
-popped = names.pop()                # 末尾を取得して削除
-del names[0]                        # 指定位置を削除
+# [開始:終了:間隔]
+part = names[1:3]
 
-names.sort(reverse=True)            # 元のリストを降順に並べ替え
-names.reverse()                     # 元のリストを反転
+# 末尾に1要素追加
+names.append("David")
 
-"David" in names                   # 含まれているか
-len(names)                          # 要素数
-names.count("Alice")               # 値の個数
-names.index("David")               # 最初に現れる位置
+# 末尾に複数要素追加
+names.extend(["Eve", "Frank"])
+
+# 指定位置に追加
+names.insert(1, "Grace")
+
+# 最初に一致した値を削除
+names.remove("Charlie")
+
+# 末尾を取得して削除
+popped = names.pop()
+
+# 指定位置を削除
+del names[0]
+
+# 元のリストを降順に並べ替え
+names.sort(reverse=True)
+
+# 元のリストを反転
+names.reverse()
+
+# 含まれているか
+"David" in names
+
+# 要素数
+len(names)
+
+# 値の個数
+names.count("Alice")
+
+# 最初に現れる位置
+names.index("David")
 ```
 
 > [!TIP]
@@ -212,10 +254,15 @@ names.index("David")               # 最初に現れる位置
 
 ```python
 point = (10, 20)
-single = (10,)                      # 1要素では末尾のカンマが必要
 
-x, y = point                       # アンパック
-x, y = y, x                        # 値を入れ替え
+# 1要素では末尾のカンマが必要
+single = (10,)
+
+# アンパック
+x, y = point
+
+# 値を入れ替え
+x, y = y, x
 ```
 
 ### 集合 `set`
@@ -266,6 +313,7 @@ city = user.get("city", "Tokyo")
 
 # 追加または上書き
 user["age"] = 21                  
+
 user["active"] = True
 user.update(city="Osaka", active=False)
 user.update({"city": "Kyoto"})
@@ -313,15 +361,130 @@ scores = [90, 80]
 
 # 番号付きで反復
 for index, name in enumerate(names, start=1):
+
     print(index, name)              
 
 # 複数の列を同時に反復
 for name, score in zip(names, scores):
+
     print(name, score)              
 
 has_passed = any(score >= 60 for score in scores)
 all_passed = all(score >= 60 for score in scores)
 ```
+
+---
+
+## 数値の計算と丸め
+
+### 最大値・最小値
+
+```python
+numbers = [2, 4, 4, 4, 5, 5, 7, 9]
+
+# 9: 最大値
+max(numbers)
+
+# 2: 最小値
+min(numbers)
+
+# 8: 複数の引数でも指定できる
+max(3, 8, 1)
+
+# None: 空の場合の既定値
+min([], default=None)
+```
+
+`max()`・`min()` は組み込み関数です。空のイテラブルに `default` を指定しないと `ValueError` になります。`default` はイテラブルを1つ渡す形式で使えます。
+
+### roundによる銀行家の丸め
+
+`round(number, ndigits)` は最も近い値に丸め、ちょうど中間なら残す桁が偶数になる方を選びます（偶数丸め／銀行家の丸め）。常に5を切り上げる四捨五入とは異なります。
+
+```python
+# 2
+round(2.5)
+
+# 4
+round(3.5)
+
+# -2
+round(-2.5)
+
+# 0.12: 小数第2位まで残す
+round(0.125, 2)
+
+# 0.38
+round(0.375, 2)
+
+# 1200: 百の位に丸める
+round(1234, -2)
+
+# 2.67: floatの表現誤差に注意
+round(2.675, 2)
+```
+
+`ndigits` を省略すると、`int`・`float` 入力の戻り値は `int` です。指定した場合は入力と同じ型になります。`float` は多くの10進小数を正確に表せないため、見た目の中間値と内部の値が一致しないことがあります。
+
+### decimalによる四捨五入
+
+`Decimal` を文字列から作り、`quantize()` に `ROUND_HALF_UP` を指定します。最も近い値に丸め、中間値はゼロから遠ざかる方向に丸めます（負数では `-2.5 → -3`）。
+
+```python
+from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
+
+# Decimal('3')
+Decimal("2.5").quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+# Decimal('-3')
+Decimal("-2.5").quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+# Decimal('2.68')
+Decimal("2.675").quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+# Decimal('1.3E+3')
+Decimal("1250").quantize(Decimal("1E2"), rounding=ROUND_HALF_UP)
+
+# Decimal('2')
+Decimal("2.5").quantize(Decimal("1"), rounding=ROUND_HALF_EVEN)
+```
+
+- `Decimal("1")` は整数、`Decimal("0.1")` は小数第1位、`Decimal("0.01")` は小数第2位に丸めます。
+- 百の位に丸めるには `Decimal("1E2")` を指定します。`Decimal("100")` は指数が0なので整数への丸めになります。
+- `Decimal(2.675)` は `float` の誤差も取り込みます。計算の最初から文字列で作った `Decimal` を使います。`Decimal` と `float` はそのまま加減乗除できません。
+- 結果は `Decimal` 型です。上の例では丸め方を呼び出しごとに指定しています。
+
+### 平均・標準偏差
+
+標準ライブラリの `statistics` を使います。追加インストールは不要です。
+
+```python
+import statistics
+
+numbers = [2, 4, 4, 4, 5, 5, 7, 9]
+
+# 5: 算術平均
+statistics.mean(numbers)
+
+# 5.0: floatで返す算術平均
+statistics.fmean(numbers)
+
+# 2.0: 母標準偏差（分母はn）
+statistics.pstdev(numbers)
+
+# 2.138089935299395: 標本標準偏差（分母はn - 1）
+statistics.stdev(numbers)
+```
+
+| 関数 | 用途 | 必要なデータ数 |
+| --- | --- | --- |
+| `mean()` / `fmean()` | 合計を個数で割った平均 | 1個以上 |
+| `pstdev()` | 手元のデータを母集団全体として扱う場合 | 1個以上 |
+| `stdev()` | 母集団から取り出した標本からばらつきを推定する場合 | 2個以上 |
+
+必要なデータ数を満たさないと `statistics.StatisticsError` になります。標準偏差は平均からのばらつきの大きさを表し、単位は元のデータと同じです。
+
+参考: [組み込み関数](https://docs.python.org/ja/3/library/functions.html)、[decimal](https://docs.python.org/ja/3/library/decimal.html)、[statistics](https://docs.python.org/ja/3/library/statistics.html)。関連記事: [＠ITの丸め処理の解説](https://atmarkit.itmedia.co.jp/ait/articles/2104/06/news022.html)。
 
 ---
 
@@ -357,6 +520,7 @@ def func(pos_only, /, normal=0, *args, flag=False, **kwargs):
 
 ```python
 result = func(1, 2, 3, 4, flag=True, mode="fast")
+
 # (1, 2, (3, 4), True, {'mode': 'fast'})
 ```
 
@@ -367,6 +531,7 @@ result = func(1, 2, 3, 4, flag=True, mode="fast")
 ```python
 # 非推奨
 def bad_default(items=[]):
+
     items.append(1)
     return items
 ```
@@ -387,10 +552,13 @@ def add(item, bucket=None):
 
 ```python
 double = lambda x: x * 2
-double(5)                           # 10
+
+# 10
+double(5)
 
 # 上記は次の関数と同じ動作
 def double(x):
+
     return x * 2
 ```
 
@@ -408,6 +576,7 @@ result = sorted(
     key=lambda row: row["score"],
     reverse=True,
 )
+
 # [{'score': 90}, {'score': 80}, {'score': 70}]
 ```
 
@@ -426,8 +595,12 @@ def counter():
 
 
 c = counter()
-c()                                 # 1
-c()                                 # 2
+
+# 1
+c()
+
+# 2
+c()
 ```
 
 ---
@@ -437,9 +610,11 @@ c()                                 # 2
 ```python
 # クラス属性
 class User:
+
     species = "human"               
 
     def __init__(self, name: str):
+
         # インスタンス属性
         self.name = name             
 
@@ -464,7 +639,10 @@ isinstance(user, User)
 ```python
 class Admin(User):
     def __init__(self, name: str, level: int = 1):
-        super().__init__(name)       # 親クラスの初期化処理を呼ぶ
+
+        # 親クラスの初期化処理を呼ぶ
+        super().__init__(name)
+
         self._level = level
 
     @property
@@ -483,6 +661,7 @@ class Admin(User):
 
 
 admin = Admin("Aoi", level=2)
+
 # getterを呼ぶ
 admin.level                         
 
@@ -507,7 +686,10 @@ from functools import wraps
 
 def repeat(count):
     def decorator(func):
-        @wraps(func)                 # 元の関数名やdocstringを保持
+
+        # 元の関数名やdocstringを保持
+        @wraps(func)
+
         def wrapper(*args, **kwargs):
             result = None
 
@@ -564,6 +746,7 @@ path = Path("sample.txt")
 
 # 書き込み。既存の内容は上書きされる
 with path.open("w", encoding="utf-8") as f:
+
     f.write("Hello, World!\n")
     f.write("Python チートシート\n")
 
@@ -575,6 +758,7 @@ path.write_text(
 
 # 読み込み
 with path.open("r", encoding="utf-8") as f:
+
     content = f.read()
 
 # ファイル全体を一度に読む場合
@@ -610,10 +794,12 @@ data = {"name": "Alice", "age": 30}
 
 # JSONの書き込み
 with json_path.open("w", encoding="utf-8") as f:
+
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 # JSONの読み込み
 with json_path.open("r", encoding="utf-8") as f:
+
     loaded_data = json.load(f)
 ```
 
@@ -746,15 +932,22 @@ def cleanup():
 input_text = "123"
 
 try:
+
     # 例外が発生する可能性がある処理
     value = int(input_text)
+
 except (ValueError, TypeError):
+
     # 指定した例外が発生した場合
     print("整数ではありません")
+
 else:
+
     # 例外が発生しなかった場合だけ実行
     save(value)
+
 finally:
+
     # 例外の有無に関係なく最後に必ず実行
     cleanup()
 ```
@@ -830,9 +1023,15 @@ pattern = re.compile(r"(?P<name>[A-Za-z]+)@([\w.-]+)")
 m = pattern.search("連絡先: user@example.com")
 
 if m:
-    print(m.group(0))       # user@example.com
-    print(m.group("name"))  # user
-    print(m.group(2))       # example.com
+
+    # user@example.com
+    print(m.group(0))
+
+    # user
+    print(m.group("name"))
+
+    # example.com
+    print(m.group(2))
 ```
 
 `re.compile()` は正規表現を再利用できるパターンオブジェクトに変換します。`search()` は対象文字列から最初に一致する場所を探し、見つからなければ `None` を返します。
@@ -860,21 +1059,27 @@ if m:
 
 ```python
 numbers = re.findall(r"\d+", "A12 B34")
-print(numbers)  # ['12', '34']
+
+# ['12', '34']
+print(numbers)
 ```
 
 `\d` は数字、`+` は1回以上の繰り返しです。`findall()` の結果は文字列のリストなので、整数が必要なら変換します。
 
 ```python
 numbers = [int(value) for value in numbers]
-print(numbers)  # [12, 34]
+
+# [12, 34]
+print(numbers)
 ```
 
 #### 一致した部分を置換する
 
 ```python
 result = re.sub(r"\s+", " ", "a    b")
-print(result)  # a b
+
+# a b
+print(result)
 ```
 
 `\s+` は連続する1個以上の空白文字です。`re.sub()` は元の文字列を変更せず、置換後の新しい文字列を返します。
@@ -883,7 +1088,9 @@ print(result)  # a b
 
 ```python
 parts = re.split(r"[,;]", "a,b;c")
-print(parts)  # ['a', 'b', 'c']
+
+# ['a', 'b', 'c']
+print(parts)
 ```
 
 `[,;]` は「カンマまたはセミコロン」を表します。

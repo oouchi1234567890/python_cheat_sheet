@@ -23,6 +23,11 @@ A quick reference to commonly used Python syntax and operations, organized by to
   - [Sets](#sets-set)
   - [Dictionaries](#dictionaries-dict)
 - [Built-in Functions](#built-in-functions)
+- [Numeric Calculations and Rounding](#numeric-calculations-and-rounding)
+  - [Maximum and Minimum](#maximum-and-minimum)
+  - [Bankers Rounding with round](#bankers-rounding-with-round)
+  - [Half-Up Rounding with decimal](#half-up-rounding-with-decimal)
+  - [Mean and Standard Deviation](#mean-and-standard-deviation)
 - [Functions](#functions)
   - [Parameter Types](#parameter-types)
   - [Mutable Default Arguments](#mutable-default-arguments)
@@ -48,46 +53,58 @@ A quick reference to commonly used Python syntax and operations, organized by to
 ```python
 s = " Python,cheat sheet,search split replace "
 text = s.strip()                       
+
 # Remove leading/trailing whitespace
 
 text.startswith("Python")             
+
 # Test a prefix: True
 
 text.endswith("replace")              
+
 # Test a suffix: True
 
 "Python" in text                      
+
 # Test for a substring: True
 
 parts = text.split(",")                
+
 # Split into a list
 
 
 joined = " / ".join(parts)             
+
 # Join strings
 
 
 replaced = text.replace(
     "cheat sheet", "reference"
+
     # Replace text
 )                                      
+
 found_index = text.find("Py")
+
 # First index, or -1 if not found
 
   
 without_prefix = text.removeprefix(
     "Python,"
+
     # Remove the prefix if present 
 )                                      
 
 head, separator, tail = text.partition(",")
+
 # Split into the text before, the separator, and the text after
 ```
 
 Strings are immutable. String methods normally return a new string instead of changing the original. Use `casefold()` for robust case-insensitive comparisons.
 
 ```python
-"Python".casefold() == "PYTHON".casefold()  # True
+# True
+"Python".casefold() == "PYTHON".casefold()
 ```
 
 ### f-string Formatting
@@ -96,21 +113,27 @@ Strings are immutable. String methods normally return a new string instead of ch
 name, price, rate = "Book", 123456, 0.075
 
 f"{name}: ${price:,}"
+
 # 'Book: $123,456'
 
 f"{rate:.1%}"
+
 # '7.5%'
 
 f"{price:>10}"
+
 # Right-align in a field of width 10
 
 f"{price:0>10}"
+
 # Pad the left side with zeros
 
 f"{name!r}"
+
 # repr() form: "'Book'"
 
 f"{price=}"
+
 # 'price=123456' (useful for debugging)
 ```
 
@@ -122,9 +145,11 @@ Raw strings treat backslashes literally in most cases.
 path = r"C:\new\test"
 
 data = "Python".encode("utf-8")
+
 # String to bytes
 
 text = data.decode("utf-8")
+
 # Bytes to string
 ```
 
@@ -133,18 +158,23 @@ text = data.decode("utf-8")
 ```python
 # List comprehension: select even numbers and square them
 squares = [x * x for x in range(6) if x % 2 == 0]
+
 # [0, 4, 16]
 
 # Dictionary comprehension
 lookup = {x: x * x for x in range(3)}
+
 # {0: 0, 1: 1, 2: 4}
 
 # Set comprehension: duplicates removed; order not guaranteed
 names = ["Alice", "Bob", "Charlie", "alice"]
+
 unique = {name.lower() for name in names}
+
 # {'alice', 'bob', 'charlie'} (display order may vary)
 
 labels = [name + " (member)" for name in names]
+
 print(*labels, sep=", ")
 ```
 
@@ -152,13 +182,17 @@ Use `*` to unpack an iterable and `**` to unpack a dictionary.
 
 ```python
 numbers = [1, 2]
-more_numbers = [0, *numbers, 3]      # [0, 1, 2, 3]
+
+# [0, 1, 2, 3]
+more_numbers = [0, *numbers, 3]
 
 options = {"flag": True}
 config = {"mode": "fast", **options}
+
 # {'mode': 'fast', 'flag': True}
 
-print(*numbers)                      # Same as print(1, 2)
+# Same as print(1, 2)
+print(*numbers)
 ```
 
 ---
@@ -180,48 +214,63 @@ Lists are ordered and mutable.
 names = ["Alice", "Bob", "Charlie", "alice"]
 
 first = names[0]
+
 # First item
 
 last = names[-1]
+
 # Last item
 
 part = names[1:3]
+
 # [start:stop:step]
 
 names.append("David")
+
 # Add one item at the end
 
 names.extend(["Eve", "Frank"])
+
 # Add multiple items at the end
 
 names.insert(1, "Grace")
+
 # Add an item at an index
 
 names.remove("Charlie")
+
 # Remove the first matching value
 
 popped = names.pop()
+
 # Remove and return the last item
 
 del names[0]
+
 # Delete an item by index
 
 names.sort(reverse=True)
+
 # Sort the original list descending
 
 names.reverse()
+
 # Reverse the original list
 
 "David" in names
+
 # Membership test
 
 len(names)
+
 # Number of items
 
 names.count("Alice")
+
 # Number of matches
 
 names.index("David")
+
 # Index of the first match
 ```
 
@@ -235,12 +284,15 @@ Tuples are ordered and cannot be changed after creation.
 ```python
 point = (10, 20)
 single = (10,)
+
 # A one-item tuple needs a comma
 
 x, y = point
+
 # Unpack values
 
 x, y = y, x
+
 # Swap values
 ```
 
@@ -252,27 +304,35 @@ Sets contain no duplicate elements and support set operations.
 a = {1, 2, 3}
 b = {3, 4}
 empty = set()
+
 # {} creates an empty dictionary
 
 a | b
+
 # Union: {1, 2, 3, 4}
 
 a & b
+
 # Intersection: {3}
 
 a - b
+
 # Difference: {1, 2}
 
 a ^ b
+
 # Symmetric difference: {1, 2, 4}
 
 a.add(5)
+
 # Add an element
 
 a.discard(9)
+
 # Remove it if present; no error if absent
 
 a.clear()
+
 # Remove all elements
 ```
 
@@ -284,34 +344,44 @@ Dictionaries store key-value pairs.
 user = {"name": "Mika", "age": 20}
 
 name = user["name"]
+
 # Raises KeyError if missing
 
 city = user.get("city", "Tokyo")
+
 # Return a default if missing
 
 user["age"] = 21
+
 # Add or overwrite a value
 
 user["active"] = True
+
 user.update(city="Osaka", active=False)
 user.update({"city": "Kyoto"})
 
 keys = user.keys()
+
 # View of keys
 
 values = user.values()
+
 # View of values
 
 items = user.items()
+
 # View of (key, value) pairs
 
 for key, value in user.items():
+
     print(key, value)
 
 age = user.pop("age")
+
 # Remove the key and return its value
 
 "name" in user
+
 # Test whether a key exists
 ```
 
@@ -337,15 +407,132 @@ scores = [90, 80]
 
 for index, name in enumerate(names, start=1):
     print(index, name)
+
     # Iterate with an index
 
 for name, score in zip(names, scores):
+
     print(name, score)
+
     # Iterate over multiple sequences
 
 has_passed = any(score >= 60 for score in scores)
+
 all_passed = all(score >= 60 for score in scores)
 ```
+
+---
+
+## Numeric Calculations and Rounding
+
+### Maximum and Minimum
+
+```python
+numbers = [2, 4, 4, 4, 5, 5, 7, 9]
+
+# 9: maximum
+max(numbers)
+
+# 2: minimum
+min(numbers)
+
+# 8: multiple arguments
+max(3, 8, 1)
+
+# None: fallback for an empty iterable
+min([], default=None)
+```
+
+The built-in `max()` and `min()` raise `ValueError` for an empty iterable without `default`. The `default` argument is available only in the single-iterable form.
+
+### Bankers Rounding with round
+
+`round(number, ndigits)` rounds to the nearest value, breaking exact ties toward an even retained digit (ties to even, or bankers rounding).
+
+```python
+# 2
+round(2.5)
+
+# 4
+round(3.5)
+
+# -2
+round(-2.5)
+
+# 0.12: keep two decimal places
+round(0.125, 2)
+
+# 0.38
+round(0.375, 2)
+
+# 1200: round to hundreds
+round(1234, -2)
+
+# 2.67: float representation error
+round(2.675, 2)
+```
+
+For `int` and `float` inputs, omitting `ndigits` returns an `int`; specifying it preserves the input type. Many decimal fractions cannot be represented exactly as a `float`, so an apparent tie may not be an exact tie internally.
+
+### Half-Up Rounding with decimal
+
+Construct `Decimal` values from strings and pass `ROUND_HALF_UP` to `quantize()`. This rounds to the nearest value and breaks ties away from zero, including `-2.5 → -3`.
+
+```python
+from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
+
+# Decimal('3')
+Decimal("2.5").quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+# Decimal('-3')
+Decimal("-2.5").quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+# Decimal('2.68')
+Decimal("2.675").quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+# Decimal('1.3E+3')
+Decimal("1250").quantize(Decimal("1E2"), rounding=ROUND_HALF_UP)
+
+# Decimal('2')
+Decimal("2.5").quantize(Decimal("1"), rounding=ROUND_HALF_EVEN)
+```
+
+- Use `Decimal("1")` for integers, `Decimal("0.1")` for one decimal place, and `Decimal("0.01")` for two.
+- Use `Decimal("1E2")` for hundreds. `Decimal("100")` has exponent zero, so it rounds to integers instead.
+- `Decimal(2.675)` also imports the float representation error. Start calculations with string-created `Decimal` values. Direct arithmetic between `Decimal` and `float` is unsupported.
+- Results are `Decimal` objects. These examples specify the rounding mode per call.
+
+### Mean and Standard Deviation
+
+Use the standard-library `statistics` module; no installation is needed.
+
+```python
+import statistics
+
+numbers = [2, 4, 4, 4, 5, 5, 7, 9]
+
+# 5: arithmetic mean
+statistics.mean(numbers)
+
+# 5.0: arithmetic mean as a float
+statistics.fmean(numbers)
+
+# 2.0: population standard deviation (divisor n)
+statistics.pstdev(numbers)
+
+# 2.138089935299395: sample standard deviation (divisor n - 1)
+statistics.stdev(numbers)
+```
+
+| Function | Use | Required data points |
+| --- | --- | --- |
+| `mean()` / `fmean()` | Sum divided by count | At least 1 |
+| `pstdev()` | Treat the data as the entire population | At least 1 |
+| `stdev()` | Estimate variability from a sample of a population | At least 2 |
+
+Insufficient data raises `statistics.StatisticsError`. Standard deviation describes the spread around the mean and has the same units as the original data.
+
+References: [Built-in functions](https://docs.python.org/3/library/functions.html), [decimal](https://docs.python.org/3/library/decimal.html), [statistics](https://docs.python.org/3/library/statistics.html). Related article (Japanese): [Rounding explained by @IT](https://atmarkit.itmedia.co.jp/ait/articles/2104/06/news022.html).
 
 ---
 
@@ -358,9 +545,11 @@ def greeting(name: str, prefix: str = "Hi") -> str:
 
 
 greeting("Aoi")
+
 # Positional argument
 
 greeting(name="Aoi", prefix="Hello")
+
 # Keyword arguments
 ```
 
@@ -382,6 +571,7 @@ def func(pos_only, /, normal=0, *args, flag=False, **kwargs):
 
 ```python
 result = func(1, 2, 3, 4, flag=True, mode="fast")
+
 # (1, 2, (3, 4), True, {'mode': 'fast'})
 ```
 
@@ -392,6 +582,7 @@ A mutable default value is created once and shared across calls.
 ```python
 # Avoid this unless shared state is intentional
 def bad_default(items=[]):
+
     items.append(1)
     return items
 ```
@@ -412,10 +603,13 @@ A `lambda` expression creates a small anonymous function.
 
 ```python
 double = lambda x: x * 2
-double(5)                            # 10
+
+# 10
+double(5)
 
 # Equivalent behavior
 def double(x):
+
     return x * 2
 ```
 
@@ -433,6 +627,7 @@ result = sorted(
     key=lambda row: row["score"],
     reverse=True,
 )
+
 # [{'score': 90}, {'score': 80}, {'score': 70}]
 ```
 
@@ -451,8 +646,12 @@ def counter():
 
 
 c = counter()
-c()                                  # 1
-c()                                  # 2
+
+# 1
+c()
+
+# 2
+c()
 ```
 
 ---
@@ -461,19 +660,30 @@ c()                                  # 2
 
 ```python
 class User:
-    species = "human"                # Class attribute
+
+    # Class attribute
+    species = "human"
 
     def __init__(self, name: str):
-        self.name = name              # Instance attribute
+
+        # Instance attribute
+        self.name = name
 
     def greet(self) -> str:
         return f"Hi, {self.name}"
 
 
-user = User("Aoi")                   # Create an instance
-user.name                             # 'Aoi'
-user.greet()                          # 'Hi, Aoi'
-isinstance(user, User)                # True
+# Create an instance
+user = User("Aoi")
+
+# 'Aoi'
+user.name
+
+# 'Hi, Aoi'
+user.greet()
+
+# True
+isinstance(user, User)
 ```
 
 ### Inheritance, `super()`, and `property`
@@ -481,7 +691,10 @@ isinstance(user, User)                # True
 ```python
 class Admin(User):
     def __init__(self, name: str, level: int = 1):
-        super().__init__(name)         # Initialize the parent class
+
+        # Initialize the parent class
+        super().__init__(name)
+
         self._level = level
 
     @property
@@ -500,9 +713,15 @@ class Admin(User):
 
 
 admin = Admin("Aoi", level=2)
-admin.level                           # Call the getter
-admin.level = 3                       # Call the setter
-del admin.level                       # Call the deleter
+
+# Call the getter
+admin.level
+
+# Call the setter
+admin.level = 3
+
+# Call the deleter
+del admin.level
 ```
 
 By convention, a name beginning with `_` is treated as non-public. Unlike Java's `private`, this is not an enforced access restriction.
@@ -519,7 +738,10 @@ from functools import wraps
 
 def repeat(count):
     def decorator(func):
-        @wraps(func)                   # Preserve name, docstring, and metadata
+
+        # Preserve name, docstring, and metadata
+        @wraps(func)
+
         def wrapper(*args, **kwargs):
             result = None
 
@@ -538,7 +760,8 @@ def greet(name):
     print(f"Hello, {name}!")
 
 
-greet("Alice")                        # Print the greeting three times
+# Print the greeting three times
+greet("Alice")
 ```
 
 `@repeat(3)` is roughly equivalent to:
@@ -553,11 +776,17 @@ greet = repeat(3)(greet)
 
 ```python
 import math
-import pathlib as pl                  # Import with an alias
-from collections import Counter       # Import a name from a module
+
+# Import with an alias
+import pathlib as pl
+
+# Import a name from a module
+from collections import Counter
 
 fruits = ["apple", "banana", "apple", "orange"]
-counts = Counter(fruits)              # Count occurrences
+
+# Count occurrences
+counts = Counter(fruits)
 
 math.sqrt(9)
 pl.Path("data.txt")
@@ -573,7 +802,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()                             # Runs for: python tool.py
+
+    # Runs for: python tool.py
+    main()
 ```
 
 ---
@@ -605,6 +836,7 @@ path = Path("sample.txt")
 
 # Write and replace existing contents
 with path.open("w", encoding="utf-8") as file:
+
     file.write("Hello, World!\n")
     file.write("Python cheat sheet\n")
 
@@ -616,6 +848,7 @@ path.write_text(
 
 # Read through a file object
 with path.open("r", encoding="utf-8") as file:
+
     content = file.read()
 
 # Read the complete file at once
@@ -771,13 +1004,21 @@ def cleanup():
 input_text = "123"
 
 try:
-    value = int(input_text)           # Operation that may fail
+
+    # Operation that may fail
+    value = int(input_text)
+
 except (ValueError, TypeError) as error:
     print(f"Not an integer: {error}")
 else:
-    save(value)                       # Runs only if no exception occurred
+
+    # Runs only if no exception occurred
+    save(value)
+
 finally:
-    cleanup()                         # Always runs at the end
+
+    # Always runs at the end
+    cleanup()
 ```
 
 | Keyword | Purpose |
@@ -828,9 +1069,15 @@ pattern = re.compile(r"(?P<name>[A-Za-z]+)@([\w.-]+)")
 match = pattern.search("Contact: user@example.com")
 
 if match:
-    print(match.group(0))              # user@example.com
-    print(match.group("name"))         # user
-    print(match.group(2))              # example.com
+
+    # user@example.com
+    print(match.group(0))
+
+    # user
+    print(match.group("name"))
+
+    # example.com
+    print(match.group(2))
 ```
 
 `search()` returns the first match object or `None`. This email pattern is a simple learning example, not a complete email-address validator.
@@ -849,15 +1096,19 @@ if match:
 
 ```python
 numbers = re.findall(r"\d+", "A12 B34")
+
 # ['12', '34']
 
 numbers_as_int = [int(value) for value in numbers]
+
 # [12, 34]
 
 result = re.sub(r"\s+", " ", "a    b")
+
 # 'a b'
 
 parts = re.split(r"[,;]", "a,b;c")
+
 # ['a', 'b', 'c']
 ```
 
