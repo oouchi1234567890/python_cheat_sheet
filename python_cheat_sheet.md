@@ -1153,3 +1153,5 @@ parts = re.split(r"[,;]", "a,b;c")
 - Source Python file: [`cheat_sheet.py`](./cheat_sheet.py)
 
 Heading icons: [Lucide](https://lucide.dev/icons/) ([license](images/lucide/LICENSE), [source and modifications](images/lucide/SOURCE.txt)).
+
+**Our deepest gratitude and utmost respect go to the creators, maintainers, and every contributor to Lucide. Your dedication to creating, sharing, and continually improving these beautiful, accessible icons as open source has made this cheat sheet clearer and more welcoming. Thank you wholeheartedly for the care and generosity you share with the world.**

@@ -1136,3 +1136,5 @@ print(parts)
 - 元のPythonファイル: [`cheat_sheet.py`](./cheat_sheet.py)
 
 見出しのアイコン: [Lucide](https://lucide.dev/icons/)（[ライセンス](images/lucide/LICENSE)・[取得元と変更内容](images/lucide/SOURCE.txt)）。
+
+**Lucideの制作者・メンテナー・すべての貢献者の皆さまに、最大限の敬意と心からの感謝を捧げます。美しく使いやすいアイコンをオープンソースとして世界中に届け、継続して育ててくださる皆さまのおかげで、このチートシートも、より見やすく親しみやすいものになりました。本当にありがとうございます。**
